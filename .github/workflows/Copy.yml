@@ -22,34 +22,43 @@ jobs:
               sudo yum install -y git
             fi
 
-            # Install nvm, node, npm if not present
+            # Install nvm and Node.js
             if ! command -v nvm &> /dev/null; then
               curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-              export NVM_DIR="$HOME/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            else
-              export NVM_DIR="$HOME/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             fi
-
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             if ! command -v node &> /dev/null; then
               nvm install 16.14.0
-              nvm use 16.14.0
             fi
+            nvm use 16.14.0
 
             # Install pm2 if not present
             if ! command -v pm2 &> /dev/null; then
               npm install -g pm2
             fi
+
+            # Install Redis (works for both Amazon Linux 2 and 2023)
             if ! command -v redis-server &> /dev/null; then
-              sudo amazon-linux-extras install epel -y
-              sudo yum-config-manager --enable epel
-              sudo yum update -y
-              sudo yum install redis -y
-              sudo systemctl start redis
-              sudo systemctl enable redis
+              if [ -f /etc/os-release ]; then
+                . /etc/os-release
+                if [[ "$NAME" == "Amazon Linux" && "$VERSION_ID" == "2023" ]]; then
+                  sudo dnf update -y
+                  sudo dnf install -y redis
+                  sudo systemctl enable --now redis
+                else
+                  sudo yum update -y
+                  sudo yum install -y epel-release
+                  sudo yum install -y redis
+                  sudo systemctl enable redis
+                  sudo systemctl start redis
+                fi
+              fi
             else
               echo "Redis is already installed."
               sudo systemctl start redis
               sudo systemctl enable redis
             fi
+            sudo systemctl status redis
+
+           
