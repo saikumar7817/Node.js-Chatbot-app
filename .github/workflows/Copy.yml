@@ -37,28 +37,13 @@ jobs:
             if ! command -v pm2 &> /dev/null; then
               npm install -g pm2
             fi
-
-            # Install Redis (works for both Amazon Linux 2 and 2023)
             if ! command -v redis-server &> /dev/null; then
-              if [ -f /etc/os-release ]; then
-                . /etc/os-release
-                if [[ "$NAME" == "Amazon Linux" && "$VERSION_ID" == "2023" ]]; then
-                  sudo dnf update -y
-                  sudo dnf install -y redis
-                  sudo systemctl enable --now redis
-                else
-                  sudo yum update -y
-                  sudo yum install -y epel-release
-                  sudo yum install -y redis
-                  sudo systemctl enable redis
-                  sudo systemctl start redis
-                fi
-              fi
+              sudo dnf update -y
+              sudo dnf install -y redis
+              sudo systemctl enable --now redis
             else
               echo "Redis is already installed."
               sudo systemctl start redis
               sudo systemctl enable redis
             fi
             sudo systemctl status redis
-
-           
