@@ -1,0 +1,32 @@
+name: Deploy GST Chatbot
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            rm -rf /tmp/botkit-repo
+            git clone https://github.com/saikumar7817/Node.js-Chatbot-app.git /tmp/botkit-repo
+
+            sudo mkdir -p /usr/bin/triva_chatbot/botkit
+            sudo chown $USER:$USER /usr/bin/triva_chatbot/botkit
+
+            cp -r /tmp/botkit-repo/botkit/* /usr/bin/triva_chatbot/botkit/
+
+            rm -rf /tmp/botkit-repo
+            
+            cd /usr/bin/triva_chatbot/botkit/casetext
+            pm2 start app.js --name "casetext_app"
+
+
+
