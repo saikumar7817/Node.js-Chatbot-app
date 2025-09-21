@@ -38,12 +38,12 @@ jobs:
               npm install -g pm2
             fi
             if ! command -v redis-server &> /dev/null; then
-              sudo dnf update -y
-              sudo dnf install -y redis
-              sudo systemctl enable --now redis
+              sudo dnf install -y redis6
+              sudo systemctl enable --now redis6
             else
               echo "Redis is already installed."
-              sudo systemctl start redis
-              sudo systemctl enable redis
+              sudo systemctl start redis6
+              sudo systemctl enable redis6
             fi
-            sudo systemctl status redis
+            sudo systemctl status redis6
+
