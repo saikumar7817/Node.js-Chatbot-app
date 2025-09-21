@@ -1,4 +1,4 @@
-name: Deploy GST Chatbot
+name: Runapp
 
 on:
   workflow_dispatch:
