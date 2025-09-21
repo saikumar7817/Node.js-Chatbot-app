@@ -48,7 +48,7 @@ jobs:
 
             # Install Nginx if not present
             if ! command -v nginx &> /dev/null; then
-              sudo dnf install nginx1 -y
+              sudo dnf install nginx -y
               sudo systemctl start nginx
               sudo systemctl enable nginx
             else
