@@ -39,7 +39,7 @@ jobs:
 
             pm2 save
             
-            sudo env PATH=$PATH:/home/***/.nvm/versions/node/v16.14.0/bin /home/***/.nvm/versions/node/v16.14.0/lib/node_modules/pm2/bin/pm2 startup systemd -u *** --hp /home/***
+            sudo env PATH=$PATH:/home/***/.nvm/versions/node/v16.14.0/bin /home/***/.nvm/versions/node/v16.14.0/lib/node_modules/pm2/bin/pm2 startup systemd -u *** --hp /home/*** -f
 
             pm2 startup
 
