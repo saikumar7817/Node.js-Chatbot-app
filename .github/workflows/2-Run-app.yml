@@ -28,5 +28,18 @@ jobs:
             cd /usr/bin/triva_chatbot/botkit/casetext
             pm2 start app.js --name "casetext_app"
 
+            cd /usr/bin/triva_chatbot/botkit/gst
+            pm2 start app.js --name "gst_app"
+
+            cd /usr/bin/triva_chatbot/botkit/legal
+            pm2 start app.js --name "legal_app"
+
+            cd /usr/bin/triva_chatbot/botkit/tap
+            pm2 start app.js --name "tap_app"
+
+            pm2 save
+
+            pm2 startup
+
 
 
