@@ -2,9 +2,7 @@ name: Deploy GST Chatbot
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+
 
 jobs:
   deploy:
@@ -46,4 +44,17 @@ jobs:
               sudo systemctl enable redis6
             fi
             sudo systemctl status redis6
+            
+            
+            rm -rf /tmp/botkit-repo
+            git clone https://github.com/saikumar7817/Node.js-Chatbot-app.git /tmp/botkit-repo
+
+            sudo mkdir -p /usr/bin/triva_chatbot/botkit
+            sudo chown $USER:$USER /usr/bin/triva_chatbot/botkit
+
+            cp -r /tmp/botkit-repo/botkit/* /usr/bin/triva_chatbot/botkit/
+
+            rm -rf /tmp/botkit-repo
+
+
 
