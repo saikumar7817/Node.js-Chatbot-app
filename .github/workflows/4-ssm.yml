@@ -22,7 +22,7 @@ jobs:
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=i-0d95d6982863613cf" \
+            --instance-ids "i-0d95d6982863613cf" \
             --comment "GitHub triggered command" \
             --parameters 'commands=["mkdir SSM"]' \
             --region ap-south-1
